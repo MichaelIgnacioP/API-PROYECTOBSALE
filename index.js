@@ -1,6 +1,6 @@
-// index.js
 require('dotenv').config();
 const express = require('express');
+const db = require('./db');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const loginRoutes = require('./routes/login');
@@ -19,7 +19,8 @@ app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 
 // Iniciar el servidor
-const PORT = 3000; // Puedes cambiar el puerto si lo deseas
-app.listen(PORT, () => {
-  console.log(`Iniciando en el puerto ${PORT}`);
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Servidor iniciado en el puerto ${port}`);
 });
+

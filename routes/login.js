@@ -6,33 +6,31 @@ const User = require('../models/user');
 
 // Ruta de inicio de sesión
 router.post('/', async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    // Buscar al usuario en la base de datos por su correo electrónico
+  try {
     const user = await User.findOne({ email });
 
-    // Verificar si el usuario existe
     if (!user) {
-      return res.status(401).json({ error: 'Credenciales inválidas' });
+      return res.status(401).json({ message: 'Usuario o contraseña inválidos' });
     }
 
-    // Verificar la contraseña
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: 'Credenciales inválidas' });
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (!validPassword) {
+      return res.status(401).json({ message: 'Contraseña inválida' });
     }
 
-    // Generar el token de autenticación
-    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.SECRET_KEY, { expiresIn: '1h' });
+    const userId = user._id;
+    const token = jwt.sign({ userId }, process.env.SECRET_KEY, { expiresIn: '1d' });
 
-    // Devolver el token al cliente
-    res.json({ token });
+    res.json({ message: 'Sesión iniciada exitosamente', token });
   } catch (error) {
-    console.error('Error en la autenticación:', error);
-    res.status(500).json({ error: 'Error en la autenticación' });
+    console.error('Error al iniciar sesión:', error);
+    res.status(500).send('Error al iniciar sesión');
   }
 });
+
 
 module.exports = router;
 
