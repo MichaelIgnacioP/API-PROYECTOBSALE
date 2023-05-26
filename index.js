@@ -22,6 +22,13 @@ app.use('/register', registerRoutes);
 app.use('/landingpage', landingPageRoutes);
 app.use('/contact', contactNotification);
 
+// Manejo de CORS para todas las rutas
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 // Iniciar el servidor
 const port = process.env.PORT;
 app.listen(port, () => {
