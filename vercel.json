@@ -1,0 +1,9 @@
+{
+    "rewrites": [
+      { "source": "/login(.*)", "destination": "/index.js" },
+      { "source": "/register(.*)", "destination": "/index.js" },
+      { "source": "/landingpage(.*)", "destination": "/index.js" },
+      { "source": "/contact(.*)", "destination": "/index.js" }
+    ]
+  }
+  
