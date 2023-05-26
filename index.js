@@ -23,7 +23,7 @@ app.use('/landingpage', landingPageRoutes);
 app.use('/contact', contactNotification);
 
 // Iniciar el servidor
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Servidor iniciado en el puerto ${port}`);
 });
