@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const isAuthenticated = require('../middlewares/auth');
 
-router.get('/server', isAuthenticated, (req, res) => {
+router.get('/server', (req, res) => {
   res.send('Bienvenido/a a la página de aterrizaje');
 });
 
