@@ -7,9 +7,10 @@
       }
     ],
     "routes": [
-      { "src": "/login", "dest": "/routes/login" },
-      { "src": "/register", "dest": "/routes/register" },
-      { "src": "/contact", "dest": "/routes/contact" },
+      { "src": "/login", "dest": "/routes/login.js" },
+      { "src": "/register", "dest": "/routes/register.js" },
+      { "src": "/contact", "dest": "/routes/contact.js" },
+      { "src": "/landingpage/server", "dest": "/routes/landingpage.js" },
       { "src": "/(.*)", "dest": "/index.js" }
     ]
   }
