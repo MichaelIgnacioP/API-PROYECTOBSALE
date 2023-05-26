@@ -11,7 +11,7 @@ const contactNotification = require('./routes/contact')
 const app = express();
 
 // Configuración de CORS
-app.use(cors());
+app.use('/api', cors());
 
 // Configuración de Body Parser
 app.use(bodyParser.json());
