@@ -5,6 +5,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const loginRoutes = require('./routes/login');
 const registerRoutes = require('./routes/register');
+const landingPageRoutes = require('./routes/landingpage');
+const contactNotification = require('./routes/contact')
 
 const app = express();
 
@@ -17,6 +19,8 @@ app.use(bodyParser.json());
 // Rutas de inicio de sesión y registro
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
+app.use('/landingpage', landingPageRoutes);
+app.use('/contact', contactNotification);
 
 // Iniciar el servidor
 const port = process.env.PORT || 3000;

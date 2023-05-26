@@ -1,21 +1,39 @@
-// middlewares/isAuthenticated.js
+const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
+moment.locale('es');
 
-const isAuthenticated = (req, res, next) => {
-  const token = req.headers.authorization;
+const isAuthenticated = async (req, res, next) => {
+  if (!req?.headers?.authorization) {
+    return res.status(400).json({ message: 'No se introdujo el token' });
+  }
 
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
-      if (error) {
-        return res.status(403).json({ error: 'Token inválido' });
-      }
+  const bearerToken = req.headers.authorization;
+  const bearerTokenSplit = bearerToken.split(' ');
 
-      // Almacenar los datos del usuario validado en el objeto `req` para usarlos en la ruta protegida
-      req.user = user;
-      next();
-    });
-  } else {
-    res.status(401).json({ error: 'Token requerido' });
+  if (bearerTokenSplit.length !== 2 || bearerTokenSplit[0] !== 'Bearer') {
+    return res.status(400).json({ message: 'Autorización inválida, recuerde colocar el Bearer seguido del token' });
+  }
+
+  const token = bearerTokenSplit[1];
+
+  try {
+    const tokenData = await jwt.verify(token, process.env.SECRET_KEY);
+
+    const { id: userId } = tokenData;
+    const user = await User.findOne({ _id: userId });
+
+    req.user = user;
+
+    next();
+  } catch (error) {
+    console.log(JSON.stringify(error, null, 4));
+
+    if (error.name === 'TokenExpiredError') {
+      return res.status(403).json({ message: `(${error.name}) El token expiró ${moment(error.expiredAt).fromNow()}` });
+    } else {
+      return res.status(403).json({ message: 'Token incorrecto' });
+    }
   }
 };
 
