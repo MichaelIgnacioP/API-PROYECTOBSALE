@@ -1,9 +1,16 @@
 {
-    "rewrites": [
-      { "source": "/login(.*)", "destination": "/index.js" },
-      { "source": "/register(.*)", "destination": "/index.js" },
-      { "source": "/landingpage(.*)", "destination": "/index.js" },
-      { "source": "/contact(.*)", "destination": "/index.js" }
+    "version": 2,
+    "builds": [
+      {
+        "src": "index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      { "src": "/login", "dest": "/login" },
+      { "src": "/register", "dest": "/register" },
+      { "src": "/contact", "dest": "/contact" },
+      { "src": "/(.*)", "dest": "/index.js" }
     ]
   }
   
